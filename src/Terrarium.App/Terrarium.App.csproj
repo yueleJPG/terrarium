@@ -1,0 +1,28 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net9.0-windows</TargetFramework>
+    <UseWindowsForms>true</UseWindowsForms>
+    <LangVersion>latest</LangVersion>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <RootNamespace>Terrarium.App</RootNamespace>
+    <AssemblyName>Terrarium</AssemblyName>
+    <!--
+      DPI 感知刻意只在 app.manifest 里声明。清单是更可靠的位置：
+      它在任何托管代码执行之前就生效，不用担心"窗口建早了"。
+      代价是 SDK 分析器会提示 WFO0003（它希望走 API / 项目属性），
+      这里明确选择清单方案，所以把该警告静音。
+    -->
+    <ApplicationManifest>app.manifest</ApplicationManifest>
+    <NoWarn>$(NoWarn);WFO0003</NoWarn>
+    <InvariantGlobalization>true</InvariantGlobalization>
+    <SatelliteResourceLanguages>en</SatelliteResourceLanguages>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Terrarium.Core\Terrarium.Core.csproj" />
+  </ItemGroup>
+
+</Project>

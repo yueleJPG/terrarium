@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<assembly manifestVersion="1.0" xmlns="urn:schemas-microsoft-com:asm.v1">
+
+  <assemblyIdentity version="1.0.0.0" name="Terrarium.app" />
+
+  <!--
+    在清单里直接声明 Common-Controls v6 依赖。
+
+    为什么必须写在这里，而不是靠 Application.EnableVisualStyles()：
+    那个 API 会在 %TEMP% 下写一个激活上下文清单文件，一旦临时目录不可写
+    （受限沙箱、只读用户配置、部分企业终端管控），它会抛
+    UnauthorizedAccessException，把程序在启动瞬间直接干掉 ——
+    而且报错信息完全不指向真正的原因。
+    清单是操作系统级的声明，不需要写任何临时文件。
+  -->
+  <dependency>
+    <dependentAssembly>
+      <assemblyIdentity type="win32"
+                        name="Microsoft.Windows.Common-Controls"
+                        version="6.0.0.0"
+                        processorArchitecture="*"
+                        publicKeyToken="6595b64144ccf1df"
+                        language="*" />
+    </dependentAssembly>
+  </dependency>
+
+  <!-- 高 DPI：PerMonitorV2，配合 WinForms 的 ApplicationHighDpiMode -->
+  <application xmlns="urn:schemas-microsoft-com:asm.v3">
+    <windowsSettings>
+      <dpiAware xmlns="http://schemas.microsoft.com/SMI/2005/WindowsSettings">true/pm</dpiAware>
+      <dpiAwareness xmlns="http://schemas.microsoft.com/SMI/2016/WindowsSettings">permonitorv2,permonitor</dpiAwareness>
+      <longPathAware xmlns="http://schemas.microsoft.com/SMI/2016/WindowsSettings">true</longPathAware>
+    </windowsSettings>
+  </application>
+
+  <compatibility xmlns="urn:schemas-microsoft-com:compatibility.v1">
+    <application>
+      <!-- Windows 10 / 11 -->
+      <supportedOS Id="{8e0f7a12-bfb3-4fe8-b9a5-48fd50a15a9a}" />
+      <!-- Windows 8.1 -->
+      <supportedOS Id="{1f676c76-80e1-4239-95bb-83d0f6d0da78}" />
+    </application>
+  </compatibility>
+
+</assembly>

@@ -1,0 +1,78 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net9.0-android</TargetFramework>
+    <SupportedOSPlatformVersion>24</SupportedOSPlatformVersion>
+    <OutputType>Exe</OutputType>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <LangVersion>latest</LangVersion>
+
+    <RootNamespace>Terrarium.Android</RootNamespace>
+    <AssemblyName>TerrariumAndroid</AssemblyName>
+    <ApplicationId>com.terrarium.sim</ApplicationId>
+    <ApplicationVersion>1</ApplicationVersion>
+    <ApplicationDisplayVersion>1.0</ApplicationDisplayVersion>
+    <ApplicationTitle>生态箱</ApplicationTitle>
+
+    <!-- 直接出 APK，不要 aab —— 目标是"能装到手机上"，不是上架 -->
+    <AndroidPackageFormat>apk</AndroidPackageFormat>
+
+    <!-- 只出 arm64（真机）+ x64（模拟器）两种 ABI，砍掉 armeabi-v7a 省体积。
+         .NET Android 会把运行时打进每个 ABI，多加一种就多十几 MB。 -->
+    <RuntimeIdentifiers>android-arm64;android-x64</RuntimeIdentifiers>
+
+    <!-- 发布时裁剪 + 链接，进一步压体积 -->
+    <AndroidLinkMode>SdkOnly</AndroidLinkMode>
+
+    <!--
+      工具链路径。
+
+      注意：下面两行**只在本机存在该目录时才生效**（靠 Condition + Exists 兜住），
+      换一台机器不会因为它们而构建失败——属性和目录都落空时，.NET Android 会自己
+      去找 SDK 和 JDK。
+
+      优先级（从高到低）：
+        1. 命令行 -p:AndroidSdkDirectory=... / -p:JavaSdkDirectory=...
+           （MSBuild 全局属性无法被项目内的赋值覆盖，所以一定赢）
+        2. 环境变量 ANDROID_HOME / ANDROID_SDK_ROOT / JAVA_HOME
+        3. 下面这两行的本机默认值
+        4. .NET Android 自动探测
+
+      为什么需要本机默认值：.NET Android 35 只认 JDK 17（`XA0030`），
+      而机器上装的往往是 JDK 21；SDK 和 JDK 也可能装在非标准位置。
+      这类跟机器绑定的路径不该进仓库，所以放在下面这个**不提交**的文件里
+      （见 `.gitignore` 的 `*.local.props`）：
+
+          src/Terrarium.Android/Terrarium.Android.local.props
+
+      内容形如：
+
+          <Project>
+            <PropertyGroup>
+              <AndroidSdkDirectory>C:\path\to\android-sdk</AndroidSdkDirectory>
+              <JavaSdkDirectory>C:\path\to\jdk-17</JavaSdkDirectory>
+            </PropertyGroup>
+          </Project>
+
+      没有这个文件也能构建，只是退回环境变量 / 自动探测。
+
+      另需注意：JDK 用 21 时还会连带抛
+        warning XARAT7001: System.NullReferenceException ... ResolveAndroidTooling.RunTask()
+      那是版本不对的副作用，不是真的 NRE。
+    -->
+    <EnableDefaultAndroidResourceItems>true</EnableDefaultAndroidResourceItems>
+  </PropertyGroup>
+
+  <!-- 本机工具链路径：文件不存在就跳过，退回环境变量 / 自动探测。
+       必须放在 PropertyGroup 外 —— Import 是项目级元素。 -->
+  <Import Project="$(MSBuildThisFileDirectory)Terrarium.Android.local.props"
+          Condition="Exists('$(MSBuildThisFileDirectory)Terrarium.Android.local.props')" />
+
+  <ItemGroup>
+    <!-- 模拟内核 5470 行原样复用 —— 它是纯 C#，没有任何 Windows 依赖。
+         要重写的只有界面层。 -->
+    <ProjectReference Include="..\Terrarium.Core\Terrarium.Core.csproj" />
+  </ItemGroup>
+
+</Project>

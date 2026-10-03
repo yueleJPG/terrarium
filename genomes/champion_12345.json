@@ -1,0 +1,136 @@
+{
+  "Organs": [
+    1,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0
+  ],
+  "Rules": [
+    {
+      "If": [
+        {
+          "Sensor": "CombatPower",
+          "Op": "Greater",
+          "Value": 1.0459548
+        },
+        {
+          "Sensor": "InWater",
+          "Op": "Greater",
+          "Value": 0.3940717
+        }
+      ],
+      "Then": [
+        {
+          "Action": "Turn"
+        }
+      ]
+    },
+    {
+      "If": [
+        {
+          "Sensor": "EnergyPct",
+          "Op": "Greater",
+          "Value": 0.94386524
+        }
+      ],
+      "Then": [
+        {
+          "Action": "Reproduce"
+        }
+      ]
+    },
+    {
+      "If": [
+        {
+          "Sensor": "EnemyDistance",
+          "Value": 0.9610075
+        },
+        {
+          "Sensor": "EnergyPct",
+          "Op": "LessEqual",
+          "Value": 0.92123544
+        }
+      ],
+      "Then": [
+        {
+          "Action": "Attack",
+          "Aim": "NearestEnemy"
+        }
+      ]
+    },
+    {
+      "If": [
+        {
+          "Sensor": "FoodHere",
+          "Op": "Greater",
+          "Value": 0.02273947
+        }
+      ],
+      "Then": [
+        {
+          "Action": "Eat"
+        }
+      ]
+    },
+    {
+      "If": [
+        {
+          "Sensor": "AtEdge",
+          "Op": "GreaterEqual",
+          "Value": 0.13039052
+        },
+        {
+          "Op": "LessEqual"
+        }
+      ],
+      "Then": [
+        {
+          "Action": "Move",
+          "Aim": "NearestFood"
+        }
+      ]
+    },
+    {
+      "If": [
+        {
+          "Sensor": "FoodDistance",
+          "Value": 0.9589757
+        }
+      ],
+      "Then": [
+        {
+          "Action": "Move",
+          "Aim": "NearestFood"
+        },
+        {}
+      ]
+    },
+    {
+      "If": [
+        {
+          "Sensor": "EnergyPct",
+          "Op": "Greater",
+          "Value": 0.5366816
+        }
+      ],
+      "Then": [
+        {
+          "Action": "Reproduce"
+        }
+      ]
+    }
+  ],
+  "MutationRate": 0.25026402,
+  "RuleMutationRate": 0.15559752,
+  "Hue": 0.37266135,
+  "SizeScale": 1,
+  "Generation": 31,
+  "SpeciesId": 69,
+  "Name": "\u63A0\u98DF\u8005"
+}
