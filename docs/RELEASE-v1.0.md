@@ -204,7 +204,14 @@ Android 版另有两条硬约束（JDK 17、Android SDK 路径），见 `README.
 
 ## 许可
 
-**保留所有权利。** 仓库公开只是为了方便查看和下载，并未因此授予任何使用许可。
+**MIT License** —— 完整文本见仓库根目录的 [LICENSE](https://github.com/yueleJPG/terrarium/blob/main/LICENSE)。
+
+```
+Copyright (c) 2026 yueleJPG
+```
+
+可以自由使用、修改、分发、商用，唯一的要求是保留版权声明和许可声明。
+软件按"现状"提供，不含任何担保。
 
 ---
 
